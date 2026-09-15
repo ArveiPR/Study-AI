@@ -1,156 +1,102 @@
-# 🎓 StudyAI - AI Study & Discussion Platform
+# Study-AI
 
-StudyAI is a collaborative web application designed for students and learners to study, discuss, and interact with an AI tutor powered by OpenAI (GPT-4o mini).
-
----
-
-## ✨ Features
-
-- **🤖 1-on-1 AI Tutor (Private Chat):** Instant study help and answers powered by OpenAI with real-time typewriter stream effects.
-- **👥 Group Discussion Chat:** Real-time peer chat room to collaborate with other students.
-- **🔐 User Authentication:** Secure user registration and login with encrypted password hashing (`password_hash` / `password_verify`).
-- **🌙 Dark / Light Mode:** Built-in theme switcher for comfortable reading at night.
-- **📊 Interactive Dashboard:** Easy navigation hub for accessing private chats, study groups, and quizzes.
+A web-based collaborative learning platform with integrated AI tutoring and real-time group discussions. Built with native PHP, MySQL, and the OpenAI API.
 
 ---
 
-## 🛠️ Tech Stack
+## Overview
 
-- **Backend:** PHP 8.0+ (Native)
-- **Database:** MySQL / MariaDB
-- **Frontend:** HTML5, CSS3 (Modern Responsive UI), Vanilla JavaScript
-- **AI Integration:** OpenAI API (`gpt-4o-mini`) via cURL
+Study-AI is designed to provide students with an interactive study environment. Users can chat 1-on-1 with an AI assistant to get quick explanations on study topics, join shared discussion rooms with other students, and organize their learning sessions through a simple dashboard.
 
----
+## Key Features
 
-## 📋 Prerequisites
+- **AI Tutor:** Interactive chat with OpenAI's GPT models featuring streaming-style responses.
+- **Group Discussion:** Shared study room for peer messaging and collaboration.
+- **Authentication:** User registration and session-based login with bcrypt password hashing.
+- **Theme Switcher:** Dark and light mode toggle.
+- **Clean Architecture:** Lightweight native PHP backend with prepared SQL statements.
 
-Before running this project, ensure you have the following installed:
-- **PHP** (Version 8.0 or higher) with `curl` and `mysqli` extensions enabled.
-- **MySQL / MariaDB** (via [XAMPP](https://www.apachefriends.org/), Laragon, or standalone MySQL).
-- **OpenAI API Key** (from [platform.openai.com](https://platform.openai.com/api-keys)).
-- **Git** (optional, for cloning).
+## Requirements
 
----
+- PHP 8.0 or higher (with `curl` and `mysqli` extensions enabled)
+- MySQL / MariaDB (via XAMPP, Laragon, or standalone)
+- An OpenAI API key
 
-## 🚀 Getting Started
+## Quick Start
 
-Follow these steps to set up and run StudyAI locally:
-
-### 1. Clone or Download the Repository
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/study-ai.git
-cd study-ai
+git clone https://github.com/ArveiPR/Study-AI.git
+cd Study-AI
 ```
 
-### 2. Configure Environment Variables
+### 2. Environment configuration
 
-Create your local `.env` file by copying the provided example template:
+Copy the example environment file:
 
 ```bash
-# On Windows PowerShell:
-Copy-Item .env.example .env
-
-# On Linux/macOS:
 cp .env.example .env
 ```
 
-Open `.env` in a text editor and fill in your database credentials and OpenAI API Key:
+*(On Windows PowerShell, you can use `Copy-Item .env.example .env`)*
+
+Open `.env` and set your database connection details and OpenAI API key:
 
 ```env
-# Database Configuration
 DB_HOST=localhost
 DB_USER=root
 DB_PASS=
 DB_NAME=study_ai
 
-# OpenAI API Configuration
-OPENAI_API_KEY=your_actual_openai_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-> 🔒 **Note:** The `.env` file is ignored by Git (`.gitignore`), ensuring your sensitive API keys and database credentials will never be exposed publicly.
+### 3. Database setup
 
-### 3. Setup the Database
+1. Ensure MySQL is running.
+2. Create the database and import `database.sql`:
 
-1. Start **MySQL** (e.g., via XAMPP Control Panel).
-2. Open **phpMyAdmin** (`http://localhost/phpmyadmin`) or your MySQL terminal.
-3. Import the database schema:
-   - Create a database named `study_ai`.
-   - Import the file [`database.sql`](database.sql) into `study_ai`.
-   
-   *(Alternative via terminal)*:
-   ```bash
-   mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS study_ai;"
-   mysql -u root -p study_ai < database.sql
-   ```
+```bash
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS study_ai;"
+mysql -u root -p study_ai < database.sql
+```
 
-### 4. Run the Application
+Alternatively, open **phpMyAdmin**, create a database named `study_ai`, and import `database.sql` through the web interface.
 
-You can run the application using either method below:
+### 4. Run the development server
 
-#### Option A: PHP Built-in Server (Quickest)
-Run this command from inside the `study-ai` folder:
+Using PHP's built-in web server:
 
 ```bash
 php -S localhost:8000
 ```
 
-Open your browser and navigate to:
-```text
-http://localhost:8000
-```
+Open `http://localhost:8000` in your browser.
 
-#### Option B: Using XAMPP / Apache
-1. Move or copy the `study-ai` folder into your XAMPP `htdocs` directory:
-   ```text
-   C:\xampp\htdocs\study-ai
-   ```
-2. Start both **Apache** and **MySQL** in XAMPP.
-3. Open your browser and navigate to:
-   ```text
-   http://localhost/study-ai
-   ```
+> If you are using XAMPP, place the project inside `C:/xampp/htdocs/Study-AI` and access `http://localhost/Study-AI`.
 
----
-
-## 📁 Project Structure
+## Project Layout
 
 ```text
-study-ai/
-├── api/
-│   ├── create_conversation.php # Create chat session
-│   ├── load_chat.php           # Fetch chat history
-│   ├── load_conversations.php  # Fetch user conversations
-│   ├── load_messages.php       # Fetch messages by conversation
-│   ├── openai.php              # OpenAI API communication
-│   ├── send_group.php          # Send message to group chat
-│   ├── send_message.php        # Send message handler
-│   └── send_private.php        # Send message to private AI
-├── assets/
-│   ├── css/                    # Stylesheets
-│   └── js/                     # Client-side JavaScript
-├── backend/
-│   ├── env_loader.php          # Secure environment variable loader
-│   └── koneksi.php             # MySQL database connection
-├── .env.example                # Sample environment template
-├── .gitignore                  # Git ignore rules for sensitive files
-├── database.sql                # MySQL schema definition
-├── dashboard.php               # User dashboard
-├── group_chat.php              # Group discussion room
-├── index.php                   # Landing page
-├── login.php                   # Authentication login
-├── logout.php                  # Session logout
-├── private_chat.php            # 1-on-1 AI chat interface
-├── profile.php                 # User profile page
-├── register.php                # User registration
-└── README.md                   # Project documentation
+Study-AI/
+├── api/                  # API endpoints (OpenAI bridge, chat handlers)
+├── assets/               # Static CSS styles and client-side JavaScript
+├── backend/              # Database connection and environment loader
+├── components/           # Shared UI partials
+├── .env.example          # Sample environment configuration template
+├── .gitignore            # Git exclusion rules
+├── database.sql          # Database schema
+├── dashboard.php         # Main user dashboard
+├── group_chat.php        # Group discussion room
+├── private_chat.php      # 1-on-1 AI chat page
+├── index.php             # Landing page
+├── login.php             # Authentication entry
+└── register.php          # Account creation
 ```
 
----
+## Security Notes
 
-## 🛡️ Security Best Practices
-
-- **Never commit `.env`:** Keep all API keys and secrets in `.env`.
-- **Prepared Statements:** Database queries utilize `mysqli` prepared statements to prevent SQL Injection.
-- **Password Hashing:** Passwords are encrypted using PHP's native `PASSWORD_DEFAULT` (Bcrypt).
+- Sensitive credentials and keys should stay in `.env` only. The `.env` file is excluded from git tracking via `.gitignore`.
+- Database operations use parameterized queries (`mysqli_stmt`) to prevent SQL injection.
+- User passwords are encrypted using `password_hash()` with `PASSWORD_DEFAULT`.
