@@ -1,0 +1,25 @@
+# Environment and sensitive credential files
+.env
+.env.local
+.env.*.local
+config.local.php
+
+# Operating System files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node / package manager leftovers (if any)
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+
+# Server and error logs
+*.log
+error_log
